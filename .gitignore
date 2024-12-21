@@ -55,3 +55,6 @@ bin/
 ### Draw.io ###
 .$ClassesAnimals.drawio.bkp
 .$ClassesAnimals.drawio.dtmp
+
+### Libreoffice ###
+.~lock.7.odt#

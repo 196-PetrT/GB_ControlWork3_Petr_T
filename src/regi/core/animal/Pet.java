@@ -1,4 +1,4 @@
-package core.Pet;
+package regi.core.Pet;
 
 import java.util.List;
 

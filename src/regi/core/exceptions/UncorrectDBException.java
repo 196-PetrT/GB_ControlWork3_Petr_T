@@ -1,6 +1,6 @@
-package core.exceptions;
+package regi.core.exceptions;
 
-public class UncorrectDBException {
+public class UncorrectDBException extends Throwable {
     public UncorrectDBException (String msg) {
         super();
     }

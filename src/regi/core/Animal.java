@@ -1,10 +1,10 @@
-package core;
+package regi.core;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public class Animal {
+public abstract class Animal {
     String type_animals;
 
     public Animal(String type_animals) {

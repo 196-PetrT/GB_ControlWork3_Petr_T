@@ -1,8 +1,15 @@
-package regi.core.Pet;
+package regi.impl.Pet;
+
+import regi.core.Animal;
+import regi.core.animal.Pet;
 
 import java.util.List;
 
-public class Cat implements Pet {
+public class Cat extends Animal implements Pet {
+    public Cat(String type_animals) {
+        super(type_animals);
+    }
+
     @Override
     public List getAll() {
         return null;

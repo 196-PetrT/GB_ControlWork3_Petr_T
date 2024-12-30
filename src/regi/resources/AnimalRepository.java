@@ -61,8 +61,6 @@ public interface AnimalRepository <T>{
 
     void create(T animal);
 
-    void update(T animal);
-
     T update(int Animal_id);
 
     T delete(int Animal_id);

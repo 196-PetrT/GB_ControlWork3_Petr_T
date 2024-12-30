@@ -1,8 +1,8 @@
 package regi.impl;
 
+import regi.core.SpecialAnimals;
 import regi.core.TypeAnimals;
 import regi.core.controller.Controller;
-import regi.core.exceptions.UncorrectDBException;
 import regi.core.util.Operations;
 import regi.core.view.View;
 
@@ -14,17 +14,12 @@ import java.util.stream.Collectors;
 
 
 public class ConsoleView implements View {
-    private final List<String> validOperations;
-    Controller controller;
+
+    private final Controller controller;
 
     public ConsoleView(Controller controller) {
         this.controller = controller;
-        this.validOperations = Arrays.stream(Operations.values())
-                .map(Operations::name)
-               .collect(Collectors.toList());
-    }
-    public boolean isValidOperation(String operation) {
-        return validOperations.contains(operation);
+
     }
 
 
@@ -48,16 +43,13 @@ public class ConsoleView implements View {
     public String prompt() {
         Scanner in = new Scanner(System.in);
 
-        System.err.println("Continue?... (y/n)");
+        System.err.println("Вы хотите завершить программу?... (y/n)");
         return in.nextLine();
     }
 
     @Override
-    public String getOperation() {
-
-        int id;
-
-        Scanner in = new Scanner(System.in);
+    public void getOperation() {
+        
         System.out.print(
                 "\nl - Список всех животных в реестре" +
                         "\na - Завести новое животное" +
@@ -65,63 +57,91 @@ public class ConsoleView implements View {
                         "\nu - Изменить данные о животном" +
                         "\nc - Что умеет животное" +
                         "\nn - Дрессировка" +
-                "\nвыберите действие (l, a, d, u, c, n, ) : ");
-        String operation = in.nextLine();
-        while (true) {
-            if (isValidOperation(operation)) {
-                System.err.println("Entered invalid operation. " + "\nвыберите действие (l, a, d, u, c, n, ): ");
-                operation = in.nextLine();
-            } else return operation;
+                        "\ne - Выйти из реестра" +
+                        "\nвыберите действие (l, a, d, u, c, n, e) : ");
+
+        Scanner in = new Scanner(System.in);
+//
+        
+        boolean flag = true;
+        int id;
+        while (flag) {
+            String operation = in.nextLine();
             switch (operation) {
                 case "l":
+                    System.out.println("list"); //
                     controller.getAllAnimals();
                     break;
                 case "a":
                     TypeAnimals type = menuChoice(in);
-                    if (type != null) {
-                        controller.addAnimal(type);
-                        System.out.println("ОК");
-                    }
+                    if (type == TypeAnimals.Pet) {
+                        System.out.println("add pet");
+
+                        SpecialAnimals special = menuChoiceSpecialPet(in);
+                        if (special == SpecialAnimals.Cat) controller.addCat(special);
+                        if (special == SpecialAnimals.Dog) controller.addDog(special);
+                        if (special == SpecialAnimals.Hamster) controller.addHamster(special);
+                        }
+                    if (type == TypeAnimals.Packed) {
+                        System.out.println("add packed");
+
+                        SpecialAnimals special = menuChoiceSpecialPacked(in);
+                        if (special == SpecialAnimals.Horse) controller.addHorse(special);
+                        if (special == SpecialAnimals.Camel) controller.addCamel(special);
+                        if (special == SpecialAnimals.Donkeys) controller.addDonkey(special);
+                        }
                     break;
                 case "d":
                     while (true) {
-                        id = menuChoice(in).getId_type();
-                        if (id != 0)
-                            controller.delete(id);
+                        System.out.println("del"); //
+//                        id = menuChoice(in).ordinal();
+//                        if (id != 0)
+//
+//                            controller.delete(id);
+
                         break;
                     }
                     break;
                 case "u":
                     while (true) {
-                        id = menuChoice(in).getId_type();
-                        if (id != 0) {
-                            controller.updateAnimal(id);
-                        }
-                        else
+                        System.out.println("update"); //
+//
+//                        id = menuChoice(in).ordinal();
+//                        if (id != 0) {
+//                            controller.updateAnimal(id);
+//                        } else
                             break;
                     }
 
                 case "c":
                     while (true) {
-                        id = menuChoice(in).getId_type();
-                        if (id != 0)
-                            controller.getCommands(id);
-                        else
+                        System.out.println("commands"); //
+//
+//                        id = menuChoice(in).ordinal();
+//                        if (id != 0)
+//                            controller.getCommands(id);
+//                        else
                             break;
                     }
                     break;
                 case "n":
-                    id = menuChoice(in).getId_type();
-                    if (id != 0)
-                        controller.learnCommands(id, in);
+                    System.out.println("new commands"); //
+//
+//                    id = menuChoice(in).ordinal();
+//                    if (id != 0)
+//                        controller.learnCommands(id, in);
+
                     break;
+                case "e":
+                    flag = false;
+                    break;
+
+                default:
+                    System.err.println("Entered invalid operation. " + "\nвыберите действие (l, a, d, u, c, n, e ): ");
+                    break;
+
             }
         }
-    }
-
-    private TypeAnimals menuChoice(Scanner in) {
-
-        return null;
     }
 
     @Override
@@ -137,5 +157,66 @@ public class ConsoleView implements View {
     @Override
     public String getAge() {
         return null;
+    }
+
+    private TypeAnimals menuChoice (Scanner in) {
+        System.out.println("Какое животное добавить:\n1 - питомец\n2 - вьючное");
+
+        while (true) {
+            String key = in.next();
+            switch (key) {
+                case "1":
+                    return TypeAnimals.Pet;
+                case "2":
+                    return TypeAnimals.Packed;
+                case "e":
+                    return null;
+                default:
+                    System.out.println("Такого варианта нет, введите число 1 или 2, \ne - Возврат в основное меню");
+                    break;
+            }
+        }
+    }
+
+    private SpecialAnimals menuChoiceSpecialPet (Scanner in) {
+        System.out.println("Какое животное добавить:\n1 - Кошка\n2 - Собака\n3 - Хомяк\ne - Возврат в основное меню");
+
+        while (true) {
+            String key = in.next();
+            switch (key) {
+                case "1":
+                    return SpecialAnimals.Cat;
+                case "2":
+                    return SpecialAnimals.Dog;
+                case "3":
+                    return SpecialAnimals.Hamster;
+                case "e":
+                    return null;
+                default:
+                    System.out.println("Такого варианта нет, введите число 1, 2 или 3, \ne - Возврат в основное меню");
+                    break;
+            }
+        }
+    }
+
+    private SpecialAnimals menuChoiceSpecialPacked (Scanner in) {
+        System.out.println("Какое животное добавить:\n1 - Лошадь\n2 - Верблюд\n3 - Осёл\ne - Возврат в основное меню");
+
+        while (true) {
+            String key = in.next();
+            switch (key) {
+                case "1":
+                    return SpecialAnimals.Horse;
+                case "2":
+                    return SpecialAnimals.Camel;
+                case "3":
+                    return SpecialAnimals.Donkeys;
+                case "e":
+                    return null;
+                default:
+                    System.out.println("Такого варианта нет, введите число 1, 2 или 3, \ne - Возврат в основное меню");
+                    break;
+            }
+        }
     }
 }

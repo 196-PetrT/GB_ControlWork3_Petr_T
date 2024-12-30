@@ -1,12 +1,14 @@
 package regi.core.controller;
 
 import regi.core.Animal;
-import regi.core.TypeAnimals;
+import regi.core.SpecialAnimals;
 import regi.core.view.View;
 import regi.impl.ConsoleView;
 import regi.resources.AnimalRepository;
 
 import java.util.Scanner;
+
+import static regi.core.SpecialAnimals.Cat;
 
 public class Controller {
     private final View view;
@@ -15,6 +17,10 @@ public class Controller {
     public Controller(AnimalRepository<Animal> animalRepository) {
     this.animalRepository = animalRepository;
     this.view = new ConsoleView(this);
+    }
+
+    public static void getByIdAnimal() {
+
     }
 
     public void getAllAnimals() {
@@ -36,8 +42,7 @@ public class Controller {
         System.out.println(builder.toString());
     }
 
-    public void addAnimal(TypeAnimals type) {
-    }
+
 
     public void updateAnimal(int id) {
     }
@@ -49,5 +54,41 @@ public class Controller {
     }
 
     public void learnCommands(int id, Scanner in) {
+    }
+
+    public void addCat(SpecialAnimals cat) {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Введите имя: ");
+        String name = in.nextLine();
+        System.out.print("Введите дату рождения (дд.мм.гггг): ");
+        String birthdate = in.nextLine();
+        System.out.print("Введите пол: ");
+        String sex = in.nextLine();
+        System.out.print("Введите окрас: ");
+        String color = in.nextLine();
+
+//        SpecialAnimals cat = new Cat();
+//        Cat.setName(name);
+//        Cat.setBirthdate(birthdate);
+//        Cat.setSex(sex);
+//        Cat.setColor(color);
+//        animalRepository.create(animal);
+        // todo реализовать добавление животного
+    }
+
+    public void addDog(SpecialAnimals special) {
+    }
+
+    public void addHamster(SpecialAnimals special) {
+    }
+
+    public void addHorse(SpecialAnimals special) {
+    }
+
+    public void addCamel(SpecialAnimals special) {
+    }
+
+    public void addDonkey(SpecialAnimals special) {
+
     }
 }

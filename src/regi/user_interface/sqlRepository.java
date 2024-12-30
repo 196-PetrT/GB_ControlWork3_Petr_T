@@ -5,7 +5,7 @@ import regi.resources.AnimalRepository;
 
 import java.util.List;
 
-public class Repository implements AnimalRepository<Animal> {
+public class sqlRepository implements AnimalRepository<Animal> {
     @Override
     public List<Animal> getAll() {
         return null;
@@ -16,18 +16,10 @@ public class Repository implements AnimalRepository<Animal> {
         return null;
     }
 
-
-
-    @Override
-    public void update(Animal animal) {
-
-    }
-
     @Override
     public void create(Animal animal) {
 
     }
-
 
     @Override
     public Animal update(int Animal_id) {

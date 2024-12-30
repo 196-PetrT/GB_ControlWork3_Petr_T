@@ -6,8 +6,9 @@ import regi.core.animal.Pet;
 import java.util.List;
 
 public class Cat extends Animal implements Pet {
-    public Cat(String type_animals) {
-        super(type_animals);
+    public Cat() {
+        super();
+
     }
 
     @Override

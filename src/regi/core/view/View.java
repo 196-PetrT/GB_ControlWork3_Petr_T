@@ -18,7 +18,7 @@ public interface View {
     }
     void prepare();
     String prompt();
-    String getOperation();
+    void getOperation();
 
     String getName();
     String getBirthdate();

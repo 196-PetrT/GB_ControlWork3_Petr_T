@@ -25,4 +25,8 @@ public abstract class Animal {
             System.out.println(ex);
         }
     }
+
+    public Animal() {
+
+    }
 }

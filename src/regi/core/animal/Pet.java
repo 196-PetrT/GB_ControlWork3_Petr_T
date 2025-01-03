@@ -1,5 +1,7 @@
 package regi.core.animal;
 
+import regi.core.TypeAnimals;
+
 import java.util.List;
 
 public interface Pet <T> {
@@ -9,7 +11,7 @@ public interface Pet <T> {
     void setPets_id(String Pets_id);
     String getSpecies_pets();
     void setSpecies_pets(String Species_pets);
-    String getType_animals();
+    TypeAnimals getType_animals();
     void setType_animals(String Type_animals);
 
 }

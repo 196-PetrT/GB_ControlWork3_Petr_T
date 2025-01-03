@@ -4,11 +4,13 @@ import regi.core.Animal;
 import regi.core.SpecialAnimals;
 import regi.core.view.View;
 import regi.impl.ConsoleView;
+import regi.impl.Pet.Cat;
 import regi.resources.AnimalRepository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
-
-import static regi.core.SpecialAnimals.Cat;
 
 public class Controller {
     private final View view;
@@ -56,18 +58,19 @@ public class Controller {
     public void learnCommands(int id, Scanner in) {
     }
 
-    public void addCat(SpecialAnimals cat) {
+    public void addCat() {
         Scanner in = new Scanner(System.in);
         System.out.print("Введите имя: ");
         String name = in.nextLine();
         System.out.print("Введите дату рождения (дд.мм.гггг): ");
-        String birthdate = in.nextLine();
+        String birthdateStr = in.nextLine();
+        Date birthdate = parseDate(birthdateStr);
         System.out.print("Введите пол: ");
         String sex = in.nextLine();
         System.out.print("Введите окрас: ");
         String color = in.nextLine();
 
-//        SpecialAnimals cat = new Cat();
+        Cat cat = new Cat(name, birthdate, sex, color);
 //        Cat.setName(name);
 //        Cat.setBirthdate(birthdate);
 //        Cat.setSex(sex);
@@ -90,5 +93,15 @@ public class Controller {
 
     public void addDonkey(SpecialAnimals special) {
 
+    }
+
+    private Date parseDate(String dateStr) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            return format.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

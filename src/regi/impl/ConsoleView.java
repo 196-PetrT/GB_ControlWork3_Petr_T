@@ -76,16 +76,16 @@ public class ConsoleView implements View {
                     TypeAnimals type = menuChoice(in);
                     if (type == TypeAnimals.Pet) {
                         System.out.println("add pet");
-
-                        SpecialAnimals special = menuChoiceSpecialPet(in);
-                        if (special == SpecialAnimals.Cat) controller.addCat(special);
+                        Scanner sp = new Scanner(System.in);
+                        SpecialAnimals special = menuChoiceSpecialPet(sp);
+                        if (special == SpecialAnimals.Cat) controller.addCat();
                         if (special == SpecialAnimals.Dog) controller.addDog(special);
                         if (special == SpecialAnimals.Hamster) controller.addHamster(special);
                         }
                     if (type == TypeAnimals.Packed) {
                         System.out.println("add packed");
-
-                        SpecialAnimals special = menuChoiceSpecialPacked(in);
+                        Scanner sp = new Scanner(System.in);
+                        SpecialAnimals special = menuChoiceSpecialPacked(sp);
                         if (special == SpecialAnimals.Horse) controller.addHorse(special);
                         if (special == SpecialAnimals.Camel) controller.addCamel(special);
                         if (special == SpecialAnimals.Donkeys) controller.addDonkey(special);
@@ -200,21 +200,21 @@ public class ConsoleView implements View {
     }
 
     private SpecialAnimals menuChoiceSpecialPacked (Scanner in) {
-        System.out.println("Какое животное добавить:\n1 - Лошадь\n2 - Верблюд\n3 - Осёл\ne - Возврат в основное меню");
+        System.out.println("Какое животное добавить:\n4 - Лошадь\n5 - Верблюд\n6 - Осёл\ne - Возврат в основное меню");
 
         while (true) {
             String key = in.next();
             switch (key) {
-                case "1":
+                case "4":
                     return SpecialAnimals.Horse;
-                case "2":
+                case "5":
                     return SpecialAnimals.Camel;
-                case "3":
+                case "6":
                     return SpecialAnimals.Donkeys;
                 case "e":
                     return null;
                 default:
-                    System.out.println("Такого варианта нет, введите число 1, 2 или 3, \ne - Возврат в основное меню");
+                    System.out.println("Такого варианта нет, введите число 4, 5 или 6, \ne - Возврат в основное меню");
                     break;
             }
         }

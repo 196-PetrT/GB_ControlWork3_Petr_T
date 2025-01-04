@@ -1,7 +1,7 @@
 package regi.impl.Pet;
 
 import regi.core.Animal;
-import regi.core.TypeAnimals;
+import regi.core.SpecialAnimals;
 import regi.core.animal.Pet;
 
 import java.util.Date;
@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Cat extends Animal implements Pet{
     protected String species;
+    private String special;
 
 
     public Cat(String name, Date birthDate, String sex, String colors) {
@@ -16,9 +17,10 @@ public class Cat extends Animal implements Pet{
 
     }
 
-    public static Cat create(String name, Date birthDate, String sex, String colors) {
-        return new Cat(name, birthDate, sex, colors);
+    public static void create(String name, Date birthDate, String sex, String colors) {
+        new Cat(name, birthDate, sex, colors);
     }
+
 
     @Override
     public List getAll() {
@@ -41,7 +43,7 @@ public class Cat extends Animal implements Pet{
     }
 
     @Override
-    public void setSpecies_pets(String Species_pets) {
+    public void setSpecies_pets() {
 
     }
 

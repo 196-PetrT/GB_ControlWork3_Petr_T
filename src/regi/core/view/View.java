@@ -11,7 +11,7 @@ public interface View {
             prepare();
             getOperation();
             String operation = prompt();
-            if (!operation.equalsIgnoreCase("y")) {
+            if (operation.equalsIgnoreCase("y")) {
                 System.exit(0);
             }
         }

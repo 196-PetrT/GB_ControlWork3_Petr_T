@@ -8,7 +8,7 @@ import regi.resources.AnimalRepository;
 public class App {
 
     ConsoleView ui;
-    AnimalRepository<Animal> animalRegistry = new sqlRepository();
+    AnimalRepository <Animal> animalRegistry = new sqlRepository();
     Controller controller = new Controller(animalRegistry);
     public App() {
         ui = new ConsoleView(controller);

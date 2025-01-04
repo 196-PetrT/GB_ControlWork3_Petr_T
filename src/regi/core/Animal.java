@@ -1,10 +1,6 @@
 package regi.core;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import java.util.Date;
-import java.util.UUID;
 
 public abstract class Animal {
     protected int id_animal;
@@ -17,37 +13,34 @@ public abstract class Animal {
     protected SpecialAnimals special_animals;
     protected TypeAnimals type_animals;
 
-   public Animal() {
+
+    public Animal() {
        super();
    }
 
-    public Animal(int id_animal, String name,Date birthDate, String age, String sex, String color,
-                  String learned_commands, SpecialAnimals special_animals,TypeAnimals type_animals) {
-       this.id_animal = id_animal;
-       this.name = name;
-       this.birthDate = birthDate;
-       this.age = age;
-       this.sex = sex;
-       this.color = color;
-       this.learned_commands = learned_commands;
-       this.special_animals = special_animals;
-       this.type_animals = type_animals;
+       public static Animal createAnimal(SpecialAnimals special, String name, Date birthdate) {
 
-        try {
-            String url = "jdbc:mysql://localhost/store?serverTimezone=Europe/Moscow&useSSL=false";
-            String username = "root";
-            String password = "31245";
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection conn = DriverManager.getConnection(url, username, password)) {
-                Statement statement = conn.createStatement();
-                int rows = statement.executeUpdate("SELECT animals_id, type_animals FROM HumanFriends.animals ORDER BY animals_id");
-                System.out.printf("Added %d rows", rows);
-            }
-        } catch (Exception ex) {
-            System.out.println("Connection failed...");
-            System.out.println(ex);
-        }
+       Animal animal = createNewAnimal(String.valueOf(special));
+           if (animal != null) {
+               animal.setName(name);
+           }
+           if (animal != null) {
+               animal.setBirthDate(birthdate);
+           }
+           return  animal;
     }
+
+    public static void create(SpecialAnimals special, String name, Date birthdate, String sex, String color) {
+        Animal animal = createAnimal(special, name, birthdate);
+        if (animal!= null) {
+            animal.setSex(sex);
+        }
+        if (animal!= null) {
+            animal.setColor(color);
+        }
+        // todo реализовать добавление животного
+    }
+
 
     public int getId_animal() {
         return id_animal;
@@ -83,5 +76,29 @@ public abstract class Animal {
 
     public TypeAnimals getType_animals() {
         return type_animals;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setId_animal(int id_animal) {
+        this.id_animal = id_animal;
+    }
+
+    public static Animal createNewAnimal(String special) {
+        return null;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 }

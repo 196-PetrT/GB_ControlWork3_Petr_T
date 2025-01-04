@@ -34,22 +34,6 @@ public class ConsoleView implements View {
         int spaceSize = (110 - "РЕЕСТР ЖИВОТНЫХ".length()) / 2;
         String captionLine = " ".repeat(spaceSize) + "РЕЕСТР ЖИВОТНЫХ по состоянию на " + LocalDate.now() + " ".repeat(spaceSize);
         System.out.println(captionLine);
-
-// Todo
-
-    }
-
-    @Override
-    public String prompt() {
-        Scanner in = new Scanner(System.in);
-
-        System.err.println("Вы хотите завершить программу?... (y/n)");
-        return in.nextLine();
-    }
-
-    @Override
-    public void getOperation() {
-        
         System.out.print(
                 "\nl - Список всех животных в реестре" +
                         "\na - Завести новое животное" +
@@ -60,35 +44,45 @@ public class ConsoleView implements View {
                         "\ne - Выйти из реестра" +
                         "\nвыберите действие (l, a, d, u, c, n, e) : ");
 
+    }
+
+    @Override
+    public String prompt() {
         Scanner in = new Scanner(System.in);
-//
-        
+        System.err.println("Вы хотите завершить программу?... (y/n)");
+        return in.nextLine();
+    }
+
+    @Override
+    public void getOperation() {
+        Scanner in = new Scanner(System.in);
+
         boolean flag = true;
         int id;
         while (flag) {
             String operation = in.nextLine();
             switch (operation) {
                 case "l":
-                    System.out.println("list"); //
+//                    System.out.println("list");
                     controller.getAllAnimals();
                     break;
                 case "a":
                     TypeAnimals type = menuChoice(in);
-                    if (type == TypeAnimals.Pet) {
-                        System.out.println("add pet");
+                    if (type == TypeAnimals.getType(1)) {
+                        System.out.println("Выбрано добавление питомца");
                         Scanner sp = new Scanner(System.in);
                         SpecialAnimals special = menuChoiceSpecialPet(sp);
-                        if (special == SpecialAnimals.Cat) controller.addCat();
-                        if (special == SpecialAnimals.Dog) controller.addDog(special);
-                        if (special == SpecialAnimals.Hamster) controller.addHamster(special);
+                        if (special == SpecialAnimals.getSpecial(1)) controller.addAnimal(SpecialAnimals.Cat);
+                        if (special == SpecialAnimals.getSpecial(2)) controller.addAnimal(SpecialAnimals.Dog);
+                        if (special == SpecialAnimals.getSpecial(3)) controller.addAnimal(SpecialAnimals.Hamster);
                         }
-                    if (type == TypeAnimals.Packed) {
-                        System.out.println("add packed");
+                    if (type == TypeAnimals.getType(2)) {
+                        System.out.println("Выбрано добавление вьючного животного");
                         Scanner sp = new Scanner(System.in);
                         SpecialAnimals special = menuChoiceSpecialPacked(sp);
-                        if (special == SpecialAnimals.Horse) controller.addHorse(special);
-                        if (special == SpecialAnimals.Camel) controller.addCamel(special);
-                        if (special == SpecialAnimals.Donkeys) controller.addDonkey(special);
+                        if (special == SpecialAnimals.getSpecial(4)) controller.addAnimal(SpecialAnimals.Horse);
+                        if (special == SpecialAnimals.getSpecial(5)) controller.addCamel(SpecialAnimals.Camel);
+                        if (special == SpecialAnimals.getSpecial(6)) controller.addDonkey(SpecialAnimals.Donkeys);
                         }
                     break;
                 case "d":
@@ -183,6 +177,7 @@ public class ConsoleView implements View {
 
         while (true) {
             String key = in.next();
+//            int key = Integer.parseInt(in.next());
             switch (key) {
                 case "1":
                     return SpecialAnimals.Cat;

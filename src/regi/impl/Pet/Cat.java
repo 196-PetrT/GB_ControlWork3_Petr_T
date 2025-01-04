@@ -1,14 +1,26 @@
 package regi.impl.Pet;
 
 import regi.core.Animal;
+import regi.core.SpecialAnimals;
 import regi.core.animal.Pet;
 
+import java.util.Date;
 import java.util.List;
 
-public class Cat extends Animal implements Pet {
-    public Cat(String type_animals) {
-        super(type_animals);
+public class Cat extends Animal implements Pet{
+    protected String species;
+    private String special;
+
+
+    public Cat(String name, Date birthDate, String sex, String colors) {
+        super();
+
     }
+
+    public static void create(String name, Date birthDate, String sex, String colors) {
+        new Cat(name, birthDate, sex, colors);
+    }
+
 
     @Override
     public List getAll() {
@@ -31,13 +43,8 @@ public class Cat extends Animal implements Pet {
     }
 
     @Override
-    public void setSpecies_pets(String Species_pets) {
+    public void setSpecies_pets() {
 
-    }
-
-    @Override
-    public String getType_animals() {
-        return null;
     }
 
     @Override

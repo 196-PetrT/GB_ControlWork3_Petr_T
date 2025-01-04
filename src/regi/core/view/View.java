@@ -11,14 +11,14 @@ public interface View {
             prepare();
             getOperation();
             String operation = prompt();
-            if (!operation.equalsIgnoreCase("y")) {
+            if (operation.equalsIgnoreCase("y")) {
                 System.exit(0);
             }
         }
     }
     void prepare();
     String prompt();
-    String getOperation();
+    void getOperation();
 
     String getName();
     String getBirthdate();

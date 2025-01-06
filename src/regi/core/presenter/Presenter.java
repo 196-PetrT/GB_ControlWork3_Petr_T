@@ -1,9 +1,7 @@
-package regi.core.controller;
+package regi.core.presenter;
 
 import regi.core.Animal;
 import regi.core.SpecialAnimals;
-import regi.impl.ConsoleView;
-import regi.impl.Pet.Cat;
 import regi.resources.AnimalRepository;
 
 import java.text.ParseException;
@@ -11,11 +9,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Controller {
+public class Presenter {
 
     private final AnimalRepository<Animal> animalRepository;
 
-    public Controller(AnimalRepository<Animal> animalRepository) {
+    public Presenter(AnimalRepository<Animal> animalRepository) {
     this.animalRepository = animalRepository;
     }
 
@@ -24,7 +22,7 @@ public class Controller {
 
     public void getAllAnimals() {
         try {
-            animalRepository.getAll();
+            animalRepository.listAllAnimals();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -32,9 +30,6 @@ public class Controller {
 
 
     public void updateAnimal(int id) {
-    }
-
-    public void delete(int id) {
     }
 
     public void getCommands(int id) {
@@ -55,7 +50,8 @@ public class Controller {
         String sex = in.nextLine();
         System.out.print("Введите окрас: ");
         String color = in.nextLine();
-
+        System.out.print("Введите выученные команды: ");
+        String learning_commands = in.nextLine();
 //        Animal.create(name, birthdate, sex, color);
 //        Cat.setName(name);
 //        Cat.setBirthdate(birthdate);
@@ -63,22 +59,6 @@ public class Controller {
 //        Cat.setColor(color);
 //        animalRepository.create(animal);
         // todo реализовать добавление животного
-    }
-
-    public void addDog(SpecialAnimals special) {
-    }
-
-    public void addHamster(SpecialAnimals special) {
-    }
-
-    public void addHorse(SpecialAnimals special) {
-    }
-
-    public void addCamel(SpecialAnimals special) {
-    }
-
-    public void addDonkey(SpecialAnimals special) {
-
     }
 
     private Date parseDate(String dateStr) {

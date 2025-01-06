@@ -4,9 +4,9 @@ import regi.core.Animal;
 import regi.core.SpecialAnimals;
 import regi.core.animal.Packed;
 
-public class Camel extends Animal implements Packed {
+public class Donkey extends Animal implements Packed {
     @Override
     public SpecialAnimals getSpecies_packed() {
-        return SpecialAnimals.Camel;
+        return SpecialAnimals.Donkey;
     }
 }

@@ -7,7 +7,7 @@ public enum SpecialAnimals {
 
     Horse(4, "Лошадь"),
     Camel(5, "Верблюд"),
-    Donkeys(6, "Осёл"),;
+    Donkey(6, "Осёл"),;
 
     private final int id_special;
     private final String special;
@@ -25,7 +25,7 @@ public enum SpecialAnimals {
             case 3 -> {return SpecialAnimals.Hamster;}
             case 4 -> {return SpecialAnimals.Horse;}
             case 5 -> {return SpecialAnimals.Camel;}
-            case 6 -> {return SpecialAnimals.Donkeys;}
+            case 6 -> {return SpecialAnimals.Donkey;}
             default -> {return null;}
         }
     }

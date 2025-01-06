@@ -2,6 +2,8 @@ package regi.user_interface;
 
 import regi.core.Animal;
 import regi.core.SpecialAnimals;
+import regi.core.util.SqlConnector;
+import regi.impl.Pet.Cat;
 import regi.resources.AnimalRepository;
 
 import java.sql.*;
@@ -13,79 +15,105 @@ import java.util.logging.Logger;
 
 public class sqlRepository implements AnimalRepository<Animal> {
 
+    public static SqlConnector connector;
     public static Connection connection;
     public static Statement statement;
     public static String sqlStr;
     public static ResultSet resultSet;
-    public static String url = "jdbc:mysql://localhost:3306/humanfriends";
-    public static String username = "root";
-    public static String password = "31245";
     private Animal animals;
 
 
-//    static {
-//        try {
-//            connection = DriverManager.getConnection(url, username, password);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(sqlRepository.class.getName()).log(Level.SEVERE, null, ex);
-//            throw new RuntimeException();
-//        }
-//    }
-//
-//    static {
-//        try {
-//            statement = connection.createStatement();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(sqlRepository.class.getName()).log(Level.SEVERE, null, ex);
-//            throw new RuntimeException();
-//        }
-//    }
-
-//    public Animal(int id_animal, String name,LocalDate birthDate, String age, String sex, String color,
-//                  String learned_commands, SpecialAnimals special_animals,TypeAnimals type_animals) {
-//        this.id_animal = id_animal;
-//        this.name = name;
-//        this.birthDate = birthDate;
-//        this.age = age;
-//        this.sex = sex;
-//        this.color = color;
-//        this.learned_commands = learned_commands;
-//        this.special_animals = special_animals;
-//        this.type_animals = type_animals;
-//
-
     @Override
-    public List <Animal> getAll() {
+    public void listAllAnimals() {
 
         List<Animal> allAnimal = new ArrayList<>();
         Animal animal;
-        sqlStr = "SELECT name, birthday, species_animals FROM humanfriends.all_animal ORDER BY id";
+
         try {
             // opening database connection to MySQL server
-            connection = DriverManager.getConnection(url, username, password);
+            connector = SqlConnector.getSqlConnector();
+            connection = DriverManager.getConnection(connector.url(), connector.username(), connector.password());
             // getting Statement object to execute query
             statement = connection.createStatement();
-
             // executing SELECT query
-            resultSet = statement.executeQuery(sqlStr);
-            int id = 0;
-            String format = "\n %-15s  %-15s  %-15s  %-15s ";
-            System.out.printf(format, "Id", "КЛИЧКА", "ДАТА РОЖДЕНИЯ", "ВИД");
-            while (resultSet.next()) {
-                id += 1;
-                String name = resultSet.getString(1);
-                LocalDate birthdate = resultSet.getDate(2).toLocalDate();
-                String special = resultSet.getString(3);
+            String[] allAnimalArray = {"cats", "dogs", "humsters", "horses", "camels", "donkeys"};
+            for (String animalTable : allAnimalArray) {
+                sqlStr = "SELECT name, birthday, learned_commands FROM " + animalTable + " ORDER BY birthday";
+                resultSet = statement.executeQuery(sqlStr);
+                int id = 0;
+                String format = "\n %-15s  %-15s  %-15s  %-25s %-15s";
+                System.out.printf(format, "Id", "КЛИЧКА", "ДАТА РОЖДЕНИЯ", "ВЫУЧЕННЫЕ КОМАНДЫ", "ВИД");
+                while (resultSet.next()) {
+                    id += 1;
+                    String name = resultSet.getString(1);
+                    LocalDate birthdate = resultSet.getDate(2).toLocalDate();
+                    String learned_commands = resultSet.getString(3);
 
-                System.out.printf(format, id, name, birthdate, special);
+                    System.out.printf(format, id, name, birthdate, learned_commands, animalTable);
+
 
 
 //                animal = Animal.createAnimal(special, name, birthdate);
 //                animal.setId_animal(id);
 //                allAnimal.add(animal);
-            }
-            System.out.println();
+                }
+                System.out.println("\nВсего животных " + animalTable + " в реестре: " + id);
 
+
+            }
+
+
+
+        } catch (SQLException ex) {
+            Logger.getLogger(sqlRepository.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException();
+
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ignored) {
+            }
+            try {
+                statement.close();
+            } catch (SQLException ignored) {
+            }
+            try {
+                resultSet.close();
+            } catch (SQLException ignored) {
+            }
+
+        }
+    }
+
+    @Override
+    public List<Animal> getAllAnimals() {
+
+        List<Animal> allAnimal = new ArrayList<>();
+        Animal animal;
+
+        try {
+            // opening database connection to MySQL server
+            connector = SqlConnector.getSqlConnector();
+            connection = DriverManager.getConnection(connector.url(), connector.username(), connector.password());
+            // getting Statement object to execute query
+            statement = connection.createStatement();
+            // executing SELECT query
+            String[] allAnimalArray = {"cats", "dogs", "humsters", "horses", "camels", "donkeys"};
+            for (String animalTable : allAnimalArray) {
+                sqlStr = "SELECT name, birthday, learned_commands FROM " + animalTable + " ORDER BY birthday";
+                resultSet = statement.executeQuery(sqlStr);
+                int id = 0;
+                while (resultSet.next()) {
+                    id += 1;
+                    String name = resultSet.getString(1);
+                    LocalDate birthdate = resultSet.getDate(2).toLocalDate();
+                    String learned_commands = resultSet.getString(3);
+
+//                    animal = addAnimal(animalTable);
+//                    animal.setId_animal(id);
+//                    allAnimal.add(animal);
+                }
+            }
         } catch (SQLException ex) {
             Logger.getLogger(sqlRepository.class.getName()).log(Level.SEVERE, null, ex);
             throw new RuntimeException();
@@ -109,25 +137,8 @@ public class sqlRepository implements AnimalRepository<Animal> {
     }
 
     @Override
-    public Animal getByAnimal_id(int Animal_id) {
-        return null;
+    public void addAnimal(Animal animal) {
+        
     }
-
-    @Override
-    public void create(Animal animal) {
-
-    }
-
-    @Override
-    public Animal update(int Animal_id) {
-        return null;
-    }
-
-    @Override
-    public Animal delete(int animal) {
-
-        return null;
-    }
-
 
 }

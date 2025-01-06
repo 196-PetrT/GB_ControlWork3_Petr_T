@@ -2,23 +2,19 @@ package regi.impl;
 
 import regi.core.SpecialAnimals;
 import regi.core.TypeAnimals;
-import regi.core.controller.Controller;
-import regi.core.util.Operations;
+import regi.core.presenter.Presenter;
 import regi.core.view.View;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 
 public class ConsoleView implements View {
 
-    private final Controller controller;
+    private final Presenter presenter;
 
-    public ConsoleView(Controller controller) {
-        this.controller = controller;
+    public ConsoleView(Presenter presenter) {
+        this.presenter = presenter;
 
     }
 
@@ -31,6 +27,7 @@ public class ConsoleView implements View {
 
     @Override
     public void prepare() {
+        clearConsole();
         int spaceSize = (110 - "РЕЕСТР ЖИВОТНЫХ".length()) / 2;
         String captionLine = " ".repeat(spaceSize) + "РЕЕСТР ЖИВОТНЫХ по состоянию на " + LocalDate.now() + " ".repeat(spaceSize);
         System.out.println(captionLine);
@@ -44,6 +41,10 @@ public class ConsoleView implements View {
                         "\ne - Выйти из реестра" +
                         "\nвыберите действие (l, a, d, u, c, n, e) : ");
 
+    }
+
+    private void clearConsole() {
+        System.out.print("\033[H\033[J");
     }
 
     @Override
@@ -64,7 +65,7 @@ public class ConsoleView implements View {
             switch (operation) {
                 case "l":
 //                    System.out.println("list");
-                    controller.getAllAnimals();
+                    presenter.getAllAnimals();
                     break;
                 case "a":
                     TypeAnimals type = menuChoice(in);
@@ -72,51 +73,18 @@ public class ConsoleView implements View {
                         System.out.println("Выбрано добавление питомца");
                         Scanner sp = new Scanner(System.in);
                         SpecialAnimals special = menuChoiceSpecialPet(sp);
-                        if (special == SpecialAnimals.getSpecial(1)) controller.addAnimal(SpecialAnimals.Cat);
-                        if (special == SpecialAnimals.getSpecial(2)) controller.addAnimal(SpecialAnimals.Dog);
-                        if (special == SpecialAnimals.getSpecial(3)) controller.addAnimal(SpecialAnimals.Hamster);
+                        if (special == SpecialAnimals.getSpecial(1)) presenter.addAnimal(SpecialAnimals.Cat);
+                        if (special == SpecialAnimals.getSpecial(2)) presenter.addAnimal(SpecialAnimals.Dog);
+                        if (special == SpecialAnimals.getSpecial(3)) presenter.addAnimal(SpecialAnimals.Hamster);
                         }
                     if (type == TypeAnimals.getType(2)) {
                         System.out.println("Выбрано добавление вьючного животного");
                         Scanner sp = new Scanner(System.in);
                         SpecialAnimals special = menuChoiceSpecialPacked(sp);
-                        if (special == SpecialAnimals.getSpecial(4)) controller.addAnimal(SpecialAnimals.Horse);
-                        if (special == SpecialAnimals.getSpecial(5)) controller.addCamel(SpecialAnimals.Camel);
-                        if (special == SpecialAnimals.getSpecial(6)) controller.addDonkey(SpecialAnimals.Donkeys);
+                        if (special == SpecialAnimals.getSpecial(4)) presenter.addAnimal(SpecialAnimals.Horse);
+                        if (special == SpecialAnimals.getSpecial(5)) presenter.addAnimal(SpecialAnimals.Camel);
+                        if (special == SpecialAnimals.getSpecial(6)) presenter.addAnimal(SpecialAnimals.Donkey);
                         }
-                    break;
-                case "d":
-                    while (true) {
-                        System.out.println("del"); //
-//                        id = menuChoice(in).ordinal();
-//                        if (id != 0)
-//
-//                            controller.delete(id);
-
-                        break;
-                    }
-                    break;
-                case "u":
-                    while (true) {
-                        System.out.println("update"); //
-//
-//                        id = menuChoice(in).ordinal();
-//                        if (id != 0) {
-//                            controller.updateAnimal(id);
-//                        } else
-                            break;
-                    }
-
-                case "c":
-                    while (true) {
-                        System.out.println("commands"); //
-//
-//                        id = menuChoice(in).ordinal();
-//                        if (id != 0)
-//                            controller.getCommands(id);
-//                        else
-                            break;
-                    }
                     break;
                 case "n":
                     System.out.println("new commands"); //
@@ -205,7 +173,7 @@ public class ConsoleView implements View {
                 case "5":
                     return SpecialAnimals.Camel;
                 case "6":
-                    return SpecialAnimals.Donkeys;
+                    return SpecialAnimals.Donkey;
                 case "e":
                     return null;
                 default:

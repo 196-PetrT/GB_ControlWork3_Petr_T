@@ -1,23 +1,16 @@
 package regi.core.animal;
 
+import regi.core.SpecialAnimals;
 import regi.core.TypeAnimals;
 
 import java.util.List;
 
-public interface Pet <T> {
+public interface Pet {
 
-    List <T> getAll();
 
-    T getBy_Pets_id(int Pets_id);
+    SpecialAnimals getSpecies_pets();
 
-    void setPets_id(String Pets_id);
 
-    String getSpecies_pets();
-
-    void setSpecies_pets();
-
-    TypeAnimals getType_animals();
-
-    void setType_animals(String Type_animals);
+    TypeAnimals type = TypeAnimals.Pet;
 
 }

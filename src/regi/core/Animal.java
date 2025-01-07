@@ -9,15 +9,35 @@ public abstract class Animal {
     protected String sex;
     protected String color;
     protected String learned_commands;
-    protected String special_animals;
+    protected SpecialAnimals special_animals;
     protected TypeAnimals type_animals;
 
+
+    public String getName() {
+        return name;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public int getId_animal() {
+        return id_animal;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public String getSex() {
+        return sex;
+    }
 
     public String getLearned_commands() {
         return learned_commands;
     }
 
-    public String getSpecial_animals() {
+    public SpecialAnimals getSpecial_animals() {
         return special_animals;
     }
 
@@ -38,10 +58,6 @@ public abstract class Animal {
         this.id_animal = id_animal;
     }
 
-    public static Animal createNewAnimal(String special) {
-        return null;
-    }
-
     public void setColor(String color) {
         this.color = color;
     }
@@ -54,7 +70,7 @@ public abstract class Animal {
         this.learned_commands = learned_commands;
     }
 
-    public void setSpecial_animals(String special_animals) {
+    public void setSpecial_animals(SpecialAnimals special_animals) {
         this.special_animals = special_animals;
     }
 

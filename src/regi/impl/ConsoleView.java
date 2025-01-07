@@ -4,19 +4,27 @@ import regi.core.SpecialAnimals;
 import regi.core.TypeAnimals;
 import regi.core.presenter.Presenter;
 import regi.core.view.View;
+import regi.resources.AnimalRepository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Scanner;
 
 
 public class ConsoleView implements View {
 
-    private final Presenter presenter;
+    private Presenter presenter;
 
     public ConsoleView(Presenter presenter) {
         this.presenter = presenter;
-
     }
+
+    public ConsoleView() {
+        super();
+    }
+
 
 
     @Override
@@ -39,7 +47,7 @@ public class ConsoleView implements View {
                         "\nc - Что умеет животное" +
                         "\nn - Дрессировка" +
                         "\ne - Выйти из реестра" +
-                        "\nвыберите действие (l, a, d, u, c, n, e) : ");
+                        "\nвыберите действие (l, a, n, e) : ");
 
     }
 
@@ -65,7 +73,7 @@ public class ConsoleView implements View {
             switch (operation) {
                 case "l":
 //                    System.out.println("list");
-                    presenter.getAllAnimals();
+                    presenter.displayAllAnimals();
                     break;
                 case "a":
                     TypeAnimals type = menuChoice(in);
@@ -108,18 +116,51 @@ public class ConsoleView implements View {
 
     @Override
     public String getName() {
-        return null;
+        Scanner in = new Scanner(System.in);
+        System.out.print("Введите имя: ");
+        return in.nextLine();
     }
 
     @Override
-    public String getBirthdate() {
-        return null;
+    public Date getBirthdate() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Введите дату рождения (дд.мм.гггг): ");
+        String birthdateStr = in.nextLine();
+        return parseDate(birthdateStr);
     }
 
     @Override
-    public String getAge() {
-        return null;
+    public String getSex() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Введите пол: ");
+        return in.nextLine();
     }
+
+    @Override
+    public String getColor() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Введите окрас: ");
+        return in.nextLine();
+    }
+
+    @Override
+    public String getLearned_commands() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Введите выученные команды: ");
+        return in.nextLine();
+    }
+
+    private Date parseDate(String dateStr) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            return format.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 
     private TypeAnimals menuChoice (Scanner in) {
         System.out.println("Какое животное добавить:\n1 - питомец\n2 - вьючное");
@@ -141,7 +182,7 @@ public class ConsoleView implements View {
     }
 
     private SpecialAnimals menuChoiceSpecialPet (Scanner in) {
-        System.out.println("Какое животное добавить:\n1 - Кошка\n2 - Собака\n3 - Хомяк\ne - Возврат в основное меню");
+        System.out.println("Выберите животное:\n1 - Кошка\n2 - Собака\n3 - Хомяк\ne - Возврат в основное меню");
 
         while (true) {
             String key = in.next();
@@ -163,7 +204,7 @@ public class ConsoleView implements View {
     }
 
     private SpecialAnimals menuChoiceSpecialPacked (Scanner in) {
-        System.out.println("Какое животное добавить:\n4 - Лошадь\n5 - Верблюд\n6 - Осёл\ne - Возврат в основное меню");
+        System.out.println("Выберите животное:\n4 - Лошадь\n5 - Верблюд\n6 - Осёл\ne - Возврат в основное меню");
 
         while (true) {
             String key = in.next();

@@ -14,26 +14,19 @@ import java.util.Date;
 public abstract class AdderAnimal {
 
 
-    protected  Animal createNewAnimal(SpecialAnimals special) {
-        switch (special) {
-            case Cat:
-                return new Cat();
-            case Dog:
-                return new Dog();
-            case Hamster:
-                return new Hamster();
-            case Horse:
-                return new Horse();
-            case Camel:
-                return new Camel();
-            case Donkey:
-                return new Donkey();
-        }
-        return null;
+    public static Animal createNewAnimal(SpecialAnimals special) {
+        return switch (special) {
+            case Cat -> new Cat();
+            case Dog -> new Dog();
+            case Hamster -> new Hamster();
+            case Horse -> new Horse();
+            case Camel -> new Camel();
+            case Donkey -> new Donkey();
+        };
 
     }
 
-    public Animal addAnimal(SpecialAnimals special, String name, Date birthdate, String sex, String color, String learned_commands){
+    public Animal createAnimal(SpecialAnimals special, String name, Date birthdate, String sex, String color, String learned_commands){
         Animal animal = createNewAnimal(special);
         animal.setName(name);
         animal.setBirthDate(birthdate);

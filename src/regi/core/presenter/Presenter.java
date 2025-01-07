@@ -2,25 +2,30 @@ package regi.core.presenter;
 
 import regi.core.Animal;
 import regi.core.SpecialAnimals;
+import regi.core.util.AdderAnimal;
+import regi.core.view.View;
+import regi.impl.ConsoleView;
 import regi.resources.AnimalRepository;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
+
 
 public class Presenter {
 
     private final AnimalRepository<Animal> animalRepository;
+    private  AdderAnimal adderAnimal;
+    private final View view;
 
     public Presenter(AnimalRepository<Animal> animalRepository) {
     this.animalRepository = animalRepository;
+        this.view = new ConsoleView();
+
     }
 
     public static void getByIdAnimal() {
     }
 
-    public void getAllAnimals() {
+    public void displayAllAnimals() {
         try {
             animalRepository.listAllAnimals();
         } catch (Exception e) {
@@ -29,45 +34,23 @@ public class Presenter {
     }
 
 
-    public void updateAnimal(int id) {
-    }
-
-    public void getCommands(int id) {
-    }
-
-    public void learnCommands(int id, Scanner in) {
-    }
-
     public void addAnimal(SpecialAnimals special) {
-
-        Scanner in = new Scanner(System.in);
-        System.out.print("Введите имя: ");
-        String name = in.nextLine();
-        System.out.print("Введите дату рождения (дд.мм.гггг): ");
-        String birthdateStr = in.nextLine();
-        Date birthdate = parseDate(birthdateStr);
-        System.out.print("Введите пол: ");
-        String sex = in.nextLine();
-        System.out.print("Введите окрас: ");
-        String color = in.nextLine();
-        System.out.print("Введите выученные команды: ");
-        String learning_commands = in.nextLine();
-//        Animal.create(name, birthdate, sex, color);
-//        Cat.setName(name);
-//        Cat.setBirthdate(birthdate);
-//        Cat.setSex(sex);
-//        Cat.setColor(color);
-//        animalRepository.create(animal);
-        // todo реализовать добавление животного
-    }
-
-    private Date parseDate(String dateStr) {
+        // String[] addedAnimalArray = new String[] {String.valueOf(special), view.getName(), , , view.getColor(), view.getLearned_commands()};
+        String name = view.getName();
+        Date birthday = view.getBirthdate();
+        String sex = view.getSex();
+        String color = view.getColor();
+        String learned_commands = view.getLearned_commands();
         try {
-            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-            return format.parse(dateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
+            animalRepository.addAnimal(adderAnimal.createAnimal(special, name, birthday, sex, color, learned_commands));
+            // (SpecialAnimals special, String name, Date birthdate, String sex, String color, String learned_commands)
+            System.out.println("add real");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
+        // SpecialAnimals special, String name, Date birthdate, String sex, String color, String learned_commands
     }
+
+
 }

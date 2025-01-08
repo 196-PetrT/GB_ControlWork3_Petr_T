@@ -58,3 +58,9 @@ bin/
 
 ### Libreoffice ###
 .~lock.7.odt#
+
+### dbnavigator ###
+.idea/dbnavigator.xml
+
+### Connector mysql ###
+.idea/artifacts/mysql_8_0_32.xml

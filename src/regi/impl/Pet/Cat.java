@@ -5,8 +5,6 @@ import regi.core.SpecialAnimals;
 import regi.core.TypeAnimals;
 import regi.core.animal.Pet;
 
-import java.util.List;
-
 
 public class Cat extends Animal implements Pet {
 
@@ -14,6 +12,11 @@ public class Cat extends Animal implements Pet {
     @Override
     public SpecialAnimals getSpecies_pets() {
         return SpecialAnimals.Cat;
+    }
+
+    @Override
+    public TypeAnimals getType() {
+        return TypeAnimals.Pet;
     }
 
 }

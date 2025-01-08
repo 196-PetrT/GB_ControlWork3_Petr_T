@@ -1,6 +1,6 @@
 package regi.core.view;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface View {
     /**
@@ -23,13 +23,13 @@ public interface View {
     void getOperation();
 
     String getName();
-    Date getBirthdate();
+
+    LocalDate getBirthdate();
 
     String getSex();
 
     String getColor();
 
     String getLearned_commands();
-
 
 }

@@ -2,29 +2,21 @@ package regi.impl;
 
 import regi.core.SpecialAnimals;
 import regi.core.TypeAnimals;
+import regi.core.exceptions.IncorrectDataTypeException;
 import regi.core.presenter.Presenter;
 import regi.core.view.View;
-import regi.resources.AnimalRepository;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 
 public class ConsoleView implements View {
 
-    private Presenter presenter;
+    private final Presenter presenter;
 
     public ConsoleView(Presenter presenter) {
         this.presenter = presenter;
     }
-
-    public ConsoleView() {
-        super();
-    }
-
 
 
     @Override
@@ -36,18 +28,18 @@ public class ConsoleView implements View {
     @Override
     public void prepare() {
         clearConsole();
+//        presenter.addAllAnimals();
         int spaceSize = (110 - "РЕЕСТР ЖИВОТНЫХ".length()) / 2;
         String captionLine = " ".repeat(spaceSize) + "РЕЕСТР ЖИВОТНЫХ по состоянию на " + LocalDate.now() + " ".repeat(spaceSize);
         System.out.println(captionLine);
         System.out.print(
-                "\nl - Список всех животных в реестре" +
-                        "\na - Завести новое животное" +
-                        "\nd - Удалить запись" +
-                        "\nu - Изменить данные о животном" +
-                        "\nc - Что умеет животное" +
-                        "\nn - Дрессировка" +
-                        "\ne - Выйти из реестра" +
-                        "\nвыберите действие (l, a, n, e) : ");
+                """
+                        l - Список всех животных в реестре
+                        a - Завести новое животное
+                        d - Удалить запись
+                        n - обновить сведения о выученных командах
+                        e - Выйти из реестра
+                        выберите действие (l, a, n, e) :\s""");
 
     }
 
@@ -67,52 +59,70 @@ public class ConsoleView implements View {
         Scanner in = new Scanner(System.in);
 
         boolean flag = true;
-        int id;
         while (flag) {
             String operation = in.nextLine();
             switch (operation) {
                 case "l":
-//                    System.out.println("list");
                     presenter.displayAllAnimals();
                     break;
                 case "a":
                     TypeAnimals type = menuChoice(in);
                     if (type == TypeAnimals.getType(1)) {
                         System.out.println("Выбрано добавление питомца");
+
                         Scanner sp = new Scanner(System.in);
                         SpecialAnimals special = menuChoiceSpecialPet(sp);
-                        if (special == SpecialAnimals.getSpecial(1)) presenter.addAnimal(SpecialAnimals.Cat);
-                        if (special == SpecialAnimals.getSpecial(2)) presenter.addAnimal(SpecialAnimals.Dog);
-                        if (special == SpecialAnimals.getSpecial(3)) presenter.addAnimal(SpecialAnimals.Hamster);
+                        presenter.addAnimal(special);
+                        break;
                         }
+
                     if (type == TypeAnimals.getType(2)) {
                         System.out.println("Выбрано добавление вьючного животного");
                         Scanner sp = new Scanner(System.in);
                         SpecialAnimals special = menuChoiceSpecialPacked(sp);
-                        if (special == SpecialAnimals.getSpecial(4)) presenter.addAnimal(SpecialAnimals.Horse);
-                        if (special == SpecialAnimals.getSpecial(5)) presenter.addAnimal(SpecialAnimals.Camel);
-                        if (special == SpecialAnimals.getSpecial(6)) presenter.addAnimal(SpecialAnimals.Donkey);
+                        presenter.addAnimal(special);
+                        break;
                         }
-                    break;
-                case "n":
-                    System.out.println("new commands"); //
-//
-//                    id = menuChoice(in).ordinal();
-//                    if (id != 0)
-//                        controller.learnCommands(id, in);
 
-                    break;
+                case "n":
+                    System.out.println("Выбрано изменение сведений о выученных командах");
+
+                    type = menuChoice(in);
+                    if (type == TypeAnimals.getType(1)) {
+                        System.out.println("Выбрано изменение сведений о питомце");
+
+                        Scanner sp = new Scanner(System.in);
+                        SpecialAnimals special = menuChoiceSpecialPet(sp);
+
+                        System.out.print("Введите Id животного: ");
+                        String id = in.nextLine();
+                        presenter.updateAnimal(presenter.addAllAnimals(), special, Integer.parseInt(id));
+                        break;
+                    }
+
+                    if (type == TypeAnimals.getType(2)) {
+                        System.out.println("Выбрано изменение сведений о вьючном животном");
+
+                        Scanner sp = new Scanner(System.in);
+                        SpecialAnimals special = menuChoiceSpecialPacked(sp);
+
+                        System.out.print("Введите Id животного: ");
+                        String id = in.nextLine();
+                        presenter.updateAnimal(presenter.addAllAnimals(), special, Integer.parseInt(id));
+                        break;
+                    }
                 case "e":
                     flag = false;
                     break;
 
                 default:
-                    System.err.println("Entered invalid operation. " + "\nвыберите действие (l, a, d, u, c, n, e ): ");
+                    System.err.println("Действие не найдено. " + "\nВыберите действие (l, a, n, e ): ");
                     break;
 
             }
         }
     }
+
 
     @Override
     public String getName() {
@@ -121,13 +131,16 @@ public class ConsoleView implements View {
         return in.nextLine();
     }
 
+
+
     @Override
-    public Date getBirthdate() {
+    public LocalDate getBirthdate() {
         Scanner in = new Scanner(System.in);
-        System.out.print("Введите дату рождения (дд.мм.гггг): ");
+        System.out.print("Введите дату рождения (yyyy-MM-dd): ");
         String birthdateStr = in.nextLine();
         return parseDate(birthdateStr);
     }
+
 
     @Override
     public String getSex() {
@@ -136,12 +149,16 @@ public class ConsoleView implements View {
         return in.nextLine();
     }
 
+
+
     @Override
     public String getColor() {
         Scanner in = new Scanner(System.in);
         System.out.print("Введите окрас: ");
         return in.nextLine();
     }
+
+
 
     @Override
     public String getLearned_commands() {
@@ -150,23 +167,29 @@ public class ConsoleView implements View {
         return in.nextLine();
     }
 
-    private Date parseDate(String dateStr) {
+
+
+    private LocalDate parseDate(String dateStr) {
+        LocalDate localDate = null;
         try {
-            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-            return format.parse(dateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
+            // Определите DateTimeFormatter для ввода формата
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            // Преобразуйте вводимые пользователем данные в LocalDate
+            localDate = LocalDate.parse(dateStr, formatter);
+
+        } catch (IncorrectDataTypeException e) {
+            System.err.println("Ошибка при анализе даты. Введите дату рождения в формате 'yyyy-MM-dd'. ");
         }
+        return localDate;
+
     }
 
 
 
     private TypeAnimals menuChoice (Scanner in) {
         System.out.println("Какое животное добавить:\n1 - питомец\n2 - вьючное");
-
+        String key = in.nextLine();
         while (true) {
-            String key = in.next();
             switch (key) {
                 case "1":
                     return TypeAnimals.Pet;
@@ -175,7 +198,7 @@ public class ConsoleView implements View {
                 case "e":
                     return null;
                 default:
-                    System.out.println("Такого варианта нет, введите число 1 или 2, \ne - Возврат в основное меню");
+                    System.err.println("Такого варианта нет, введите число 1 или 2, \ne - Возврат в основное меню");
                     break;
             }
         }
@@ -183,21 +206,16 @@ public class ConsoleView implements View {
 
     private SpecialAnimals menuChoiceSpecialPet (Scanner in) {
         System.out.println("Выберите животное:\n1 - Кошка\n2 - Собака\n3 - Хомяк\ne - Возврат в основное меню");
-
+        String key = in.nextLine();
         while (true) {
-            String key = in.next();
-//            int key = Integer.parseInt(in.next());
             switch (key) {
-                case "1":
-                    return SpecialAnimals.Cat;
-                case "2":
-                    return SpecialAnimals.Dog;
-                case "3":
-                    return SpecialAnimals.Hamster;
+                case "1", "2", "3":
+                    System.out.println("Выбран вид: " + SpecialAnimals.getSpecial(Integer.parseInt(key)));
+                    return SpecialAnimals.getSpecial(Integer.parseInt(key));
                 case "e":
                     return null;
                 default:
-                    System.out.println("Такого варианта нет, введите число 1, 2 или 3, \ne - Возврат в основное меню");
+                    System.err.println("Такого варианта нет, введите число 1, 2 или 3, \ne - Возврат в основное меню");
                     break;
             }
         }
@@ -205,20 +223,16 @@ public class ConsoleView implements View {
 
     private SpecialAnimals menuChoiceSpecialPacked (Scanner in) {
         System.out.println("Выберите животное:\n4 - Лошадь\n5 - Верблюд\n6 - Осёл\ne - Возврат в основное меню");
-
+        String key = in.nextLine();
         while (true) {
-            String key = in.next();
             switch (key) {
-                case "4":
-                    return SpecialAnimals.Horse;
-                case "5":
-                    return SpecialAnimals.Camel;
-                case "6":
-                    return SpecialAnimals.Donkey;
+                case "4", "5", "6":
+                    System.out.println("Выбран вид: " + SpecialAnimals.getSpecial(Integer.parseInt(key)));
+                    return SpecialAnimals.getSpecial(Integer.parseInt(key));
                 case "e":
                     return null;
                 default:
-                    System.out.println("Такого варианта нет, введите число 4, 5 или 6, \ne - Возврат в основное меню");
+                    System.err.println("Такого варианта нет, введите число 4, 5 или 6, \ne - Возврат в основное меню");
                     break;
             }
         }

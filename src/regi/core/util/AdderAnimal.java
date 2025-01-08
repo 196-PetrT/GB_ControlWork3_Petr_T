@@ -8,10 +8,9 @@ import regi.impl.Packed.Horse;
 import regi.impl.Pet.Cat;
 import regi.impl.Pet.Dog;
 import regi.impl.Pet.Hamster;
+import java.time.LocalDate;
 
-import java.util.Date;
-
-public abstract class AdderAnimal {
+public class AdderAnimal {
 
 
     public static Animal createNewAnimal(SpecialAnimals special) {
@@ -26,15 +25,19 @@ public abstract class AdderAnimal {
 
     }
 
-    public Animal createAnimal(SpecialAnimals special, String name, Date birthdate, String sex, String color, String learned_commands){
-        Animal animal = createNewAnimal(special);
-        animal.setName(name);
-        animal.setBirthDate(birthdate);
-        animal.setSex(sex);
-        animal.setColor(color);
-        animal.setLearned_commands(learned_commands);
 
-        return animal;
+    public static Animal createAnimal(SpecialAnimals special, String name, LocalDate birthdate, String sex, String color, String learned_commands){
+        Animal newAnimal = createNewAnimal(special);
+        newAnimal.getType_animals(special);
+        newAnimal.setSpecial_animals(special);
+        newAnimal.setName(name);
+        newAnimal.setBirthDate(birthdate);
+        newAnimal.setSex(sex);
+        newAnimal.setColor(color);
+        newAnimal.setLearned_commands(learned_commands);
+//        System.err.println("Добавлено животное вида " + special.getStr_special() + ": " + name);
+        return newAnimal;
+
     }
         // id, name, birthday, age, sex, color, learned_commands, learnability, species_animals
 }

@@ -9,7 +9,5 @@ public interface Packed {
     SpecialAnimals getSpecies_packed();
 
 
-    TypeAnimals type = TypeAnimals.Packed;
-
-
+    TypeAnimals getType();
 }

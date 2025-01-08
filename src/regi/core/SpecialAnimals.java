@@ -1,20 +1,19 @@
 package regi.core;
 
 public enum SpecialAnimals {
-    Cat(1, "Кот"),
-    Dog (2, "Собака"),
-    Hamster (3, "Хомяк"),
+    Cat( "cats"),
+    Dog ( "dogs"),
+    Hamster ( "humsters"),
 
-    Horse(4, "Лошадь"),
-    Camel(5, "Верблюд"),
-    Donkey(6, "Осёл"),;
+    Horse( "horses"),
+    Camel( "camels"),
+    Donkey( "donkeys"),;
 
-    private final int id_special;
-    private final String special;
+    private final String str_special;
 
-    SpecialAnimals(int id_special, String special) {
-        this.id_special = id_special;
-        this.special = special;
+    SpecialAnimals(String str_special) {
+
+        this.str_special = str_special;
 
     }
 
@@ -30,11 +29,7 @@ public enum SpecialAnimals {
         }
     }
 
-    public int getId_special() {
-        return id_special;
-    }
-
-    public String getSpecial() {
-        return special;
+    public String getStr_special() {
+        return str_special;
     }
 }

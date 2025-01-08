@@ -87,8 +87,8 @@ public class ConsoleView implements View {
                 case "n":
                     System.out.println("Выбрано изменение сведений о выученных командах");
 
-                    type = menuChoice(in);
-                    if (type == TypeAnimals.getType(1)) {
+                    TypeAnimals ch_type = menuChoice(in);
+                    if (ch_type == TypeAnimals.getType(1)) {
                         System.out.println("Выбрано изменение сведений о питомце");
 
                         Scanner sp = new Scanner(System.in);
@@ -100,7 +100,7 @@ public class ConsoleView implements View {
                         break;
                     }
 
-                    if (type == TypeAnimals.getType(2)) {
+                    if (ch_type == TypeAnimals.getType(2)) {
                         System.out.println("Выбрано изменение сведений о вьючном животном");
 
                         Scanner sp = new Scanner(System.in);

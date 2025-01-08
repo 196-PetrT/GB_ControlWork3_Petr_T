@@ -6,12 +6,12 @@ import regi.core.TypeAnimals;
 import regi.core.animal.Pet;
 
 
-public class Cat extends Animal implements Pet {
+public class Dog extends Animal implements Pet {
 
 
     @Override
     public SpecialAnimals getSpecies_pets() {
-        return SpecialAnimals.Cat;
+        return SpecialAnimals.Dog;
     }
 
     @Override

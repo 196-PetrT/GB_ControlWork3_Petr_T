@@ -1,69 +1,30 @@
 package regi.core;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public abstract class Animal {
     protected int id_animal;
     protected String name;
-    protected Date birthDate;
-    protected String age;
+    protected LocalDate birthDate;
     protected String sex;
     protected String color;
     protected String learned_commands;
     protected SpecialAnimals special_animals;
-    protected TypeAnimals type_animals;
-
-
-    public Animal() {
-       super();
-   }
-
-       public static Animal createAnimal(SpecialAnimals special, String name, Date birthdate) {
-
-       Animal animal = createNewAnimal(String.valueOf(special));
-           if (animal != null) {
-               animal.setName(name);
-           }
-           if (animal != null) {
-               animal.setBirthDate(birthdate);
-           }
-           return  animal;
-    }
-
-    public static void create(SpecialAnimals special, String name, Date birthdate, String sex, String color) {
-        Animal animal = createAnimal(special, name, birthdate);
-        if (animal!= null) {
-            animal.setSex(sex);
-        }
-        if (animal!= null) {
-            animal.setColor(color);
-        }
-        // todo реализовать добавление животного
-    }
-
-
-    public int getId_animal() {
-        return id_animal;
-    }
 
     public String getName() {
         return name;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public String getSex() {
-        return sex;
     }
 
     public String getColor() {
         return color;
+    }
+
+    public String getSex() {
+        return sex;
     }
 
     public String getLearned_commands() {
@@ -74,24 +35,28 @@ public abstract class Animal {
         return special_animals;
     }
 
-    public TypeAnimals getType_animals() {
-        return type_animals;
+    public TypeAnimals getType_animals(SpecialAnimals special) {
+        return switch (special) {
+            case Cat, Dog, Hamster -> TypeAnimals.Pet;
+            case Horse, Camel, Donkey -> TypeAnimals.Packed;
+        };
     }
+
+    public int getId_animal() {
+        return id_animal;
+    }
+
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
     public void setId_animal(int id_animal) {
         this.id_animal = id_animal;
-    }
-
-    public static Animal createNewAnimal(String special) {
-        return null;
     }
 
     public void setColor(String color) {
@@ -100,5 +65,17 @@ public abstract class Animal {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public void setLearned_commands(String learned_commands) {
+        this.learned_commands = learned_commands;
+    }
+
+    public void setSpecial_animals(SpecialAnimals special) {
+        this.special_animals = special;
+    }
+
+    public int setId_animal() {
+        return id_animal;
     }
 }

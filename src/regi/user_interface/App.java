@@ -1,7 +1,7 @@
 package regi.user_interface;
 
 import regi.core.Animal;
-import regi.core.controller.Controller;
+import regi.core.presenter.Presenter;
 import regi.impl.ConsoleView;
 import regi.resources.AnimalRepository;
 
@@ -9,9 +9,9 @@ public class App {
 
     ConsoleView ui;
     AnimalRepository <Animal> animalRegistry = new sqlRepository();
-    Controller controller = new Controller(animalRegistry);
+    Presenter presenter = new Presenter(animalRegistry);
     public App() {
-        ui = new ConsoleView(controller);
+        ui = new ConsoleView(presenter);
         ui.start();
     }
 

@@ -1,19 +1,20 @@
 package regi.resources;
-import regi.core.Animal;
-import regi.core.animal.Pet;
 
-import java.io.IOException;
-import java.sql.*;
 import java.util.List;
 
 public interface AnimalRepository <T> {
-    List<T> getAll();
+    // Вывести список животных по дате рождения
+    void listAllAnimals();
 
-    T getByAnimal_id(int Animal_id);
+    List<T> getAllAnimals();
 
-    void create(T animal);
+    // Добавление нового животного
+    void addAnimal(T animal);
 
-    T update(int Animal_id);
+    // Обучение новым командам
+    void updateAnimal(T animal);
 
-    T delete(int Animal_id);
+
+
+
 }

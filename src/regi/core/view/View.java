@@ -1,5 +1,7 @@
 package regi.core.view;
 
+import java.time.LocalDate;
+
 public interface View {
     /**
      * Starts the main loop of the view interface. This method continuously prepares
@@ -21,9 +23,13 @@ public interface View {
     void getOperation();
 
     String getName();
-    String getBirthdate();
 
-    String getAge();
+    LocalDate getBirthdate();
 
+    String getSex();
+
+    String getColor();
+
+    String getLearned_commands();
 
 }

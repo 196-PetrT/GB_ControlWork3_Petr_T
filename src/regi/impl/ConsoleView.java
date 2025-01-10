@@ -67,6 +67,10 @@ public class ConsoleView implements View {
                     break;
                 case "a":
                     TypeAnimals type = menuChoice(in);
+                    if (type == null) {
+                        throw new IncorrectDataTypeException("Не должно быть пустым!");
+                    }
+
                     if (type == TypeAnimals.getType(1)) {
                         System.out.println("Выбрано добавление питомца");
 
@@ -83,11 +87,14 @@ public class ConsoleView implements View {
                         presenter.addAnimal(special);
                         break;
                         }
-
+                    break;
                 case "n":
                     System.out.println("Выбрано изменение сведений о выученных командах");
 
                     TypeAnimals ch_type = menuChoice(in);
+                    if (ch_type == null) {
+                        throw new IncorrectDataTypeException("Не должно быть пустым!");
+                    }
                     if (ch_type == TypeAnimals.getType(1)) {
                         System.out.println("Выбрано изменение сведений о питомце");
 
@@ -105,12 +112,16 @@ public class ConsoleView implements View {
 
                         Scanner sp = new Scanner(System.in);
                         SpecialAnimals special = menuChoiceSpecialPacked(sp);
+//                        if (special ==null)
 
                         System.out.print("Введите Id животного: ");
                         String id = in.nextLine();
-                        presenter.updateAnimal(presenter.addAllAnimals(), special, Integer.parseInt(id));
+                        if (id !=null) {
+                            presenter.updateAnimal(presenter.addAllAnimals(), special, Integer.parseInt(id));
+                        }
                         break;
                     }
+                    break;
                 case "e":
                     flag = false;
                     break;
@@ -171,25 +182,28 @@ public class ConsoleView implements View {
 
     private LocalDate parseDate(String dateStr) {
         LocalDate localDate = null;
-        try {
-            // Определите DateTimeFormatter для ввода формата
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            // Преобразуйте вводимые пользователем данные в LocalDate
-            localDate = LocalDate.parse(dateStr, formatter);
+        if (!dateStr.isEmpty()) {
+            try {
+                // Определите DateTimeFormatter для ввода формата
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                // Преобразуйте вводимые пользователем данные в LocalDate
+                localDate = LocalDate.parse(dateStr, formatter);
 
-        } catch (IncorrectDataTypeException e) {
-            System.err.println("Ошибка при анализе даты. Введите дату рождения в формате 'yyyy-MM-dd'. ");
+            } catch (IncorrectDataTypeException e) {
+                System.err.println("Ошибка при анализе даты. Введите дату рождения в формате 'yyyy-MM-dd'. ");
+            }
         }
-        return localDate;
 
+        return localDate;
     }
 
 
 
     private TypeAnimals menuChoice (Scanner in) {
         System.out.println("Какое животное добавить:\n1 - питомец\n2 - вьючное");
-        String key = in.nextLine();
+
         while (true) {
+            String key = in.nextLine();
             switch (key) {
                 case "1":
                     return TypeAnimals.Pet;
@@ -205,9 +219,10 @@ public class ConsoleView implements View {
     }
 
     private SpecialAnimals menuChoiceSpecialPet (Scanner in) {
-        System.out.println("Выберите животное:\n1 - Кошка\n2 - Собака\n3 - Хомяк\ne - Возврат в основное меню");
-        String key = in.nextLine();
+        System.out.println("Выберите животное:\n1 - Кошка\n2 - Собака\n3 - Хомяк");
+
         while (true) {
+            String key = in.nextLine();
             switch (key) {
                 case "1", "2", "3":
                     System.out.println("Выбран вид: " + SpecialAnimals.getSpecial(Integer.parseInt(key)));
@@ -223,8 +238,9 @@ public class ConsoleView implements View {
 
     private SpecialAnimals menuChoiceSpecialPacked (Scanner in) {
         System.out.println("Выберите животное:\n4 - Лошадь\n5 - Верблюд\n6 - Осёл\ne - Возврат в основное меню");
-        String key = in.nextLine();
+
         while (true) {
+            String key = in.nextLine();
             switch (key) {
                 case "4", "5", "6":
                     System.out.println("Выбран вид: " + SpecialAnimals.getSpecial(Integer.parseInt(key)));

@@ -30,6 +30,8 @@ public interface View {
 
     String getColor();
 
-    String getLearned_commands();
+    default String getLearned_commands() {
+        return null;
+    }
 
 }

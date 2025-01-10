@@ -37,18 +37,21 @@ public class Presenter {
 
 
     public void addAnimal(SpecialAnimals special) {
-        // String[] addedAnimalArray = new String[] {String.valueOf(special), view.getName(), , , view.getColor(), view.getLearned_commands()};
-        String name = view.getName();
+
         LocalDate birthday = view.getBirthdate();
+        String name = view.getName();
         String sex = view.getSex();
         String color = view.getColor();
         String learned_commands = view.getLearned_commands();
 
+        if (birthday == null || name == null || sex == null || color == null) {
+            System.err.println("Не все поля заполнены!");
+            return;
+        }
         try {
             animalRepository.addAnimal(AdderAnimal.createAnimal(special, name, birthday, sex, color, learned_commands));
-
         } catch (IncorrectDataTypeException e) {
-            System.err.println("Ошибка добавления данных");
+            System.err.println("Ошибка добавления данных.");
         }
 
     }
@@ -63,14 +66,11 @@ public class Presenter {
                     animalTable.setLearned_commands(new_learned_commands);
                     try {
                         animalRepository.updateAnimal(animalTable);
-
                     } catch (IncorrectDataTypeException e) {
                         System.err.println("Ошибка изменения данных");
                     }
                 }
             }
-
         }
-
     }
 }
